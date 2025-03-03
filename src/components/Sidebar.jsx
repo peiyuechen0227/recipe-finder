@@ -40,10 +40,6 @@ const DesktopSidebar = () => {
           </Link>
         </nav>
       </div>
-
-      <div className="mt-auto text-sm text-gray-400 text-center p-4">
-        © 2025 CookMom
-      </div>
     </div>
   );
 };
