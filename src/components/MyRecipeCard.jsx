@@ -1,25 +1,27 @@
 import React from "react";
-import { Heart, HeartPulse, Soup } from "lucide-react";
+import { Heart, HeartPulse } from "lucide-react";
 import { useState } from "react";
 
 const getTwoValuesFromArray = (arr) => {
-  return [arr[0], arr[1]];
+  return arr && arr.length >= 2 ? [arr[0], arr[1]] : arr || [];
 };
 
-const RecipeCard = ({ recipe, bg, badge }) => {
-  const healthLables = getTwoValuesFromArray(recipe.healthLabels);
+const MyRecipeCard = ({ recipe, bg, badge }) => {
+  const healthLabels = getTwoValuesFromArray(recipe.labels || []);
   const [isFavorite, setIsFavorite] = useState(
-    localStorage.getItem("favorites")?.includes(recipe.label)
+    localStorage.getItem("favorites")?.includes(recipe.recipeTitle)
   );
 
   const addRecipeToFavorites = () => {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     const isRecipeAlreadyInFavorites = favorites.some(
-      (fav) => fav.label === recipe.label
+      (fav) => fav.recipeTitle === recipe.recipeTitle
     );
 
     if (isRecipeAlreadyInFavorites) {
-      favorites = favorites.filter((fav) => fav.label !== recipe.label);
+      favorites = favorites.filter(
+        (fav) => fav.recipeTitle !== recipe.recipeTitle
+      );
       setIsFavorite(false);
     } else {
       favorites.push(recipe);
@@ -33,14 +35,10 @@ const RecipeCard = ({ recipe, bg, badge }) => {
     <div
       className={`flex flex-col rounded-md ${bg} overflow-hidden p-3 relative transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 shadow-md hover:shadow-xl`}
     >
-      <a
-        href={`http://www.youtube.com/results?search_query=${recipe.label} recipe`}
-        target="_blank"
-        className="relative block h-32"
-      >
+      <div className="relative block h-32">
         <div className="skeleton absolute inset-0 rounded-md" />
         <img
-          src={recipe.image}
+          src={recipe.imageUrl || "https://via.placeholder.com/150"} // 默认图片
           alt="recipe img"
           className="rounded-md w-full h-full object-cover cursor-pointer opacity-0 transition-opacity duration-500"
           onLoad={(e) => {
@@ -48,13 +46,6 @@ const RecipeCard = ({ recipe, bg, badge }) => {
             e.currentTarget.previousElementSibling.style.display = "none";
           }}
         />
-
-        <div
-          className="absolute bottom-2 left-2 bg-white rounded-full p-1 shadow-md 
-        cursor-pointer flex items-center gap-1 text-sm"
-        >
-          <Soup size={16} /> {recipe.yield} Servings
-        </div>
 
         {/* Heart */}
         <div
@@ -74,21 +65,16 @@ const RecipeCard = ({ recipe, bg, badge }) => {
             <Heart size={20} className="fill-red-500 text-red-500" />
           )}
         </div>
-      </a>
+      </div>
 
       {/* Title */}
       <div className="mt-3">
-        <p className="font-bold tracking-wide">{recipe.label}</p>
-        <p className="text-gray-600 text-sm">
-          {recipe.cuisineType[0].charAt(0).toUpperCase() +
-            recipe.cuisineType[0].slice(1)}{" "}
-          Kitchen
-        </p>
+        <p className="font-bold tracking-wide">{recipe.recipeTitle}</p>
       </div>
 
-      {/* Label */}
+      {/* Labels */}
       <div className="flex flex-wrap gap-2 mt-2">
-        {healthLables.map((label, idx) => (
+        {healthLabels.map((label, idx) => (
           <div
             key={idx}
             className={`flex items-center gap-1 ${badge} px-2 py-1 rounded-md`}
@@ -104,4 +90,4 @@ const RecipeCard = ({ recipe, bg, badge }) => {
   );
 };
 
-export default RecipeCard;
+export default MyRecipeCard;

@@ -8,3 +8,14 @@
   padding: 5px;
   margin: 10px;
 }
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden; /* 避免横向滚动 */
+  background-color: #f9fafb; /* 确保背景填充 */
+}
+
+html {
+  zoom: 90%;
+}

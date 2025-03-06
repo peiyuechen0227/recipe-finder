@@ -1,5 +1,6 @@
 import React from "react";
 import RecipeCard from "../components/RecipeCard";
+import MyRecipeCard from "../components/MyRecipeCard";
 import { getRandomColor } from "../lib/utils";
 
 const FavoritesPage = () => {
@@ -7,7 +8,7 @@ const FavoritesPage = () => {
   return (
     <div className="bg-[#faf9fb] flex-1 p-10 min-h-screen">
       <div className="max-w-screen-lg mx-auto">
-        <p className="font-bold text-3xl md:text-5xl my-4">My Favorites</p>
+        <p className="font-bold text-3xl md:text-4xl my-4">My Favorites</p>
 
         {favorites.length === 0 && (
           <div className="h-[80vh] flex flex-col items-center gap-4">
