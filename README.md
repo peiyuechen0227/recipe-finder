@@ -1,12 +1,10 @@
-# React + Vite
+## 🍜 AI-Powered Recipe Finder 🍜
+This is a recipe search application designed to enhance your cooking experience by offering AI-driven recipe recommendations, automatically generating detailed cooking instructions with personalized optimizations.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🍴 Main Features 🍴
+Recipe Search: Quickly find recipes tailored to your ingredients and preferences.
+AI-generated Instructions: generating detailed cooking instructions with your personalized dietary needs.
+Favorites Management: Save your favorite recipes for easy access.
+YouTube Integration: Automatically retrieves relevant cooking videos.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+❕ Note: Some new features are currently under development. Stay tuned for updates!
