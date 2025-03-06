@@ -103,10 +103,17 @@ const MyRecipesPage = () => {
         </div>
 
         {loading ? (
-          <p className="text-center text-lg mt-5">Loading...</p>
+          <p className="text-center text-lg mt-5 text-zinc-600">Loading...</p>
         ) : !user ? (
-          <p className="text-center text-lg mt-5">
-            You are not logged in. Log in to start your culinary journey!
+          <p className="text-center text-lg mt-5 text-zinc-600">
+            You are not logged in.{" "}
+            <a
+              href="/login"
+              className="text-pink-500 underline hover:text-pink-600"
+            >
+              Log in
+            </a>{" "}
+            to start your culinary journey!
           </p>
         ) : recipes.length === 0 ? (
           <p className="text-center text-lg mt-5">
