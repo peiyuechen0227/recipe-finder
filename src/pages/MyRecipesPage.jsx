@@ -85,7 +85,6 @@ const MyRecipesPage = () => {
         <div className="flex justify-between items-center mt-4">
           <h1 className="font-bold text-3xl md:text-4xl">My Recipes</h1>
 
-          {/* 按钮组 */}
           <div className="flex gap-3">
             <button className="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2 px-4 rounded-lg ">
               <ChartNoAxesGantt />
@@ -107,12 +106,12 @@ const MyRecipesPage = () => {
         ) : !user ? (
           <p className="text-center text-lg mt-5 text-zinc-600">
             You are not logged in.{" "}
-            <a
-              href="/login"
-              className="text-pink-500 underline hover:text-pink-600"
+            <span
+              onClick={() => navigate("/login")}
+              className="text-pink-500 underline hover:text-pink-600 cursor-pointer"
             >
               Log in
-            </a>{" "}
+            </span>{" "}
             to start your culinary journey!
           </p>
         ) : recipes.length === 0 ? (

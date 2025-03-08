@@ -38,7 +38,7 @@ const MyRecipeCard = ({ recipe, bg, badge }) => {
       <div className="relative block h-32">
         <div className="skeleton absolute inset-0 rounded-md" />
         <img
-          src={recipe.imageUrl || "https://via.placeholder.com/150"} // 默认图片
+          src={recipe.imageUrl || "https://via.placeholder.com/150"}
           alt="recipe img"
           className="rounded-md w-full h-full object-cover cursor-pointer opacity-0 transition-opacity duration-500"
           onLoad={(e) => {
