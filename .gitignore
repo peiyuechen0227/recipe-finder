@@ -28,4 +28,3 @@ eslint.config.js
 prettier.config.js
 stylelint.config.js
 package-lock.json
-.gitignore
