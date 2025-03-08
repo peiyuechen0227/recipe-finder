@@ -116,7 +116,7 @@ const MyRecipesPage = () => {
             to start your culinary journey!
           </p>
         ) : recipes.length === 0 ? (
-          <p className="text-center text-lg mt-5">
+          <p className="text-center text-lg mt-5 text-zinc-600">
             You haven't uploaded any recipes yet. Start uploading now!
           </p>
         ) : (

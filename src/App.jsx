@@ -10,6 +10,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import LoginPage from "./pages/LoginPage";
 import MyRecipesPage from "./pages/MyRecipesPage";
 import UploadRecipePage from "./pages/UploadRecipePage";
+import RecipeGenPage from "./pages/RecipeGenPage";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -62,6 +63,7 @@ function App() {
             path="/upload-recipe"
             element={<UploadRecipePage user={user} />}
           />
+          <Route path="/recipe/:recipeLabel" element={<RecipeGenPage />} />
         </Routes>
       </div>
     </div>

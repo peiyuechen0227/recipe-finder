@@ -71,6 +71,9 @@ const MobileSidebar = () => {
       <Link to={"/Favorites"}>
         <Heart size={"30"} className="cursor-pointer " />
       </Link>
+      <Link to={"/myrecipes"}>
+        <ChefHat size={"30"} className="cursor-pointer " />
+      </Link>
     </div>
   );
 };

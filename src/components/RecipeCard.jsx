@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Heart, HeartPulse, Soup } from "lucide-react";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const getTwoValuesFromArray = (arr) => {
   return [arr[0], arr[1]];
 };
 
 const RecipeCard = ({ recipe, bg, badge }) => {
-  const healthLables = getTwoValuesFromArray(recipe.healthLabels);
+  const navigate = useNavigate();
+  const healthLabels = getTwoValuesFromArray(recipe.healthLabels);
   const [isFavorite, setIsFavorite] = useState(
     localStorage.getItem("favorites")?.includes(recipe.label)
   );
@@ -29,15 +30,17 @@ const RecipeCard = ({ recipe, bg, badge }) => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   };
 
+  const handleClick = () => {
+    navigate(`/recipe/${recipe.label}`, { state: { recipe } });
+  };
+
   return (
     <div
       className={`flex flex-col rounded-md ${bg} overflow-hidden p-3 relative transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 shadow-md hover:shadow-xl`}
+      onClick={handleClick}
     >
-      <a
-        href={`http://www.youtube.com/results?search_query=${recipe.label} recipe`}
-        target="_blank"
-        className="relative block h-32"
-      >
+      {/* Image */}
+      <div className="relative block h-32">
         <div className="skeleton absolute inset-0 rounded-md" />
         <img
           src={recipe.image}
@@ -49,10 +52,7 @@ const RecipeCard = ({ recipe, bg, badge }) => {
           }}
         />
 
-        <div
-          className="absolute bottom-2 left-2 bg-white rounded-full p-1 shadow-md 
-        cursor-pointer flex items-center gap-1 text-sm"
-        >
+        <div className="absolute bottom-2 left-2 bg-white rounded-full p-1 shadow-md flex items-center gap-1 text-sm">
           <Soup size={16} /> {recipe.yield} Servings
         </div>
 
@@ -60,21 +60,20 @@ const RecipeCard = ({ recipe, bg, badge }) => {
         <div
           className="absolute top-3 right-3 bg-white rounded-full p-1 cursor-pointer shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg"
           onClick={(e) => {
-            e.preventDefault();
+            e.stopPropagation();
             addRecipeToFavorites();
           }}
         >
-          {!isFavorite && (
+          {!isFavorite ? (
             <Heart
               size={20}
               className="hover:fill-red-500 hover:text-red-500"
             />
-          )}
-          {isFavorite && (
+          ) : (
             <Heart size={20} className="fill-red-500 text-red-500" />
           )}
         </div>
-      </a>
+      </div>
 
       {/* Title */}
       <div className="mt-3">
@@ -88,7 +87,7 @@ const RecipeCard = ({ recipe, bg, badge }) => {
 
       {/* Label */}
       <div className="flex flex-wrap gap-2 mt-2">
-        {healthLables.map((label, idx) => (
+        {healthLabels.map((label, idx) => (
           <div
             key={idx}
             className={`flex items-center gap-1 ${badge} px-2 py-1 rounded-md`}

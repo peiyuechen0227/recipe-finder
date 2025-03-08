@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import RecipeCard from "../components/RecipeCard";
-import { useState, useEffect } from "react";
 import { getRandomColor } from "../lib/utils";
 
 const APP_ID = import.meta.env.VITE_APP_ID;
@@ -9,20 +8,41 @@ const APP_KEY = import.meta.env.VITE_APP_KEY;
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState([true]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const searchRef = useRef(null);
 
   const fetchRecipes = async (searchQuery) => {
     setLoading(true);
-    setRecipes([]);
+    setError(null);
+
+    const cachedData = localStorage.getItem(`recipes-${searchQuery}`);
+    if (cachedData) {
+      setRecipes(JSON.parse(cachedData));
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(
         `https://api.edamam.com/api/recipes/v2/?app_id=${APP_ID}&app_key=${APP_KEY}&q=${searchQuery}&type=public`
       );
+
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status}`);
+      }
+
       const data = await res.json();
+
+      if (!data.hits || data.hits.length === 0) {
+        setError("No recipes found. Try another search.");
+      }
+
       setRecipes(data.hits);
-      console.log(data.hits);
+      localStorage.setItem(`recipes-${searchQuery}`, JSON.stringify(data.hits));
     } catch (error) {
-      console.log(error.message);
+      setError(error.message);
+      console.error("Fetch error:", error);
     } finally {
       setLoading(false);
     }
@@ -34,7 +54,10 @@ const HomePage = () => {
 
   const handleSearchRecipe = (e) => {
     e.preventDefault();
-    fetchRecipes(e.target[0].value);
+    const searchQuery = searchRef.current.value.trim();
+    if (searchQuery) {
+      fetchRecipes(searchQuery);
+    }
   };
 
   return (
@@ -50,6 +73,7 @@ const HomePage = () => {
           >
             <Search size={"24"} />
             <input
+              ref={searchRef}
               type="text"
               className="text-lg md:text-md grow py-4 p-1"
               placeholder="What do you want to cook today?"
@@ -57,12 +81,15 @@ const HomePage = () => {
           </label>
         </form>
 
-        <h1 className="font-bold text-3cl md:text-4xl mt-4">
+        <h1 className="font-bold text-3xl md:text-4xl mt-4">
           Recommended Recipes
         </h1>
         <p className="text-slate-500 font-semibold ml-1 my-2 text-sm tracking-tight">
           Popular choices
         </p>
+
+        {error && <p className="text-red-500">{error}</p>}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {!loading &&
             recipes.map(({ recipe }, index) => (
